@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch
-from d365.auth import AuthManager
+from birneD365.bc import AuthManager
 import time
 import base64
 import json
@@ -20,7 +20,7 @@ class TestAuthManager(unittest.TestCase):
         mock_post.return_value.status_code = 200
         mock_post.return_value.json.return_value = mock_response
 
-        token = self.auth_manager.get_access_token(self.client_id, self.client_secret)
+        token = self.auth_manager.get_access_token(self.client_id, self.client_secret, "test_tenant_id")
         self.assertEqual(token, "test_access_token")
         self.assertEqual(self.auth_manager.access_token, "test_access_token")
 

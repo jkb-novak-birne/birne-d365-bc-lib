@@ -1,7 +1,7 @@
 import pandas as pd
-from d365.auth import AuthManager
-from d365.native_api import NativeAPI
-from d365.odata import ODataAPI
+from .auth import AuthManager
+from .native_api import NativeAPI
+from .odata import ODataAPI
 
 class D365Wrapper:
     def __init__(self, client_id, client_secret, tenant_id, company_id, env_name):

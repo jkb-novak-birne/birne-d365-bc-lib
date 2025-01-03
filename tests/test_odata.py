@@ -1,5 +1,5 @@
 import pytest
-from d365.odata import ODataClient
+from birneD365.bc import ODataClient
 
 @pytest.fixture
 def odata_client():

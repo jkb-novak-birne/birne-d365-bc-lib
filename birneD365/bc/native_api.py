@@ -1,13 +1,12 @@
 import requests
-from d365.auth import AuthManager
 
-class ODataAPI:
+class NativeAPI:
     def __init__(self, auth_manager, tenant_id, company_id, env_name):
         self.auth_manager = auth_manager
         self.tenant_id = tenant_id
         self.company_id = company_id
         self.env_name = env_name
-        self.base_url = f"https://api.businesscentral.dynamics.com/v2.0/{tenant_id}/{env_name}/ODataV4/Company('{company_id}')"
+        self.base_url = f"https://api.businesscentral.dynamics.com/v2.0/{tenant_id}/{env_name}/api/v2.0/companies({company_id})"
 
     def get_headers(self, maxpagesize=None):
         headers = {

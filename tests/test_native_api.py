@@ -1,5 +1,5 @@
 import pytest
-from d365.native_api import NativeAPIClient
+from birneD365.bc import NativeAPIClient 
 
 class TestNativeAPIClient:
     def setup_method(self):
