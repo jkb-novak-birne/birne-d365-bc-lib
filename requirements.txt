@@ -1,4 +1,4 @@
-git+https://github.com/jkb-novak-birne/birne-d365-bc.git@main#egg=d365-business-central-lib
+git+https://github.com/jkb-novak-birne/birneD365.bc.git@main#egg=d365-business-central-lib
 requests
 pandas
 pytest

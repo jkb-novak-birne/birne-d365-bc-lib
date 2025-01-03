@@ -20,17 +20,17 @@ pip install -r requirements.txt
 Or install directly from the GitHub repository:
 
 ```sh
-pip install git+https://github.com/jkb-novak-birne/birne-d365-bc.git@main#egg=d365-business-central-lib
+pip install git+https://github.com/jkb-novak-birne/birneD365.bc.git@main#egg=d365-business-central-lib
 ```
 
 ## Usage
 
 ### Initialization
 
-To use the library, you need to initialize the `D365Wrapper` class with your credentials:
+To use the library, you need to initialize the `D365BCWrapper` class with your credentials:
 
 ```python
-from d365.wrapper import D365Wrapper
+from birneD365.bc import D365BCWrapper
 
 client_id = "your_client_id"
 client_secret = "your_client_secret"
@@ -38,7 +38,7 @@ tenant_id = "your_tenant_id"
 company_id = "your_company_id"
 env_name = "your_env_name"  # e.g., "sandbox" or "production"
 
-d365 = D365Wrapper(client_id, client_secret, tenant_id, company_id, env_name)
+d365 = D365BCWrapper(client_id, client_secret, tenant_id, company_id, env_name)
 ```
 
 ### Native API
