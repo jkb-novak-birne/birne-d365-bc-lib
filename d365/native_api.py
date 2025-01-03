@@ -9,22 +9,48 @@ class NativeAPI:
         self.env_name = env_name
         self.base_url = f"https://api.businesscentral.dynamics.com/v2.0/{tenant_id}/{env_name}/api/v2.0/companies({company_id})"
 
-    def get_headers(self):
-        return {
+    def get_headers(self, maxpagesize=None):
+        headers = {
             "Authorization": f"Bearer {self.auth_manager.access_token}",
             "Content-Type": "application/json"
         }
+        if maxpagesize:
+            headers["Prefer"] = f"odata.maxpagesize={str(maxpagesize)}"
+        return headers
 
-    def get(self, endpoint):
+    def construct_query(self, filters=None, orderby=None):
+        query_params = []
+        if filters:
+            query_params.append(f"$filter={filters}")
+        if orderby:
+            query_params.append(f"$orderby={orderby}")
+        return "&".join(query_params)
+
+    def get(self, endpoint, filters=None, orderby=None, maxpagesize=None):
+        query_string = self.construct_query(filters, orderby)
         url = f"{self.base_url}/{endpoint}"
-        headers = self.get_headers()
+        if query_string:
+            url = f"{url}?{query_string}"
+        headers = self.get_headers(maxpagesize)
         response = requests.get(url, headers=headers)
         response.raise_for_status()
         return response.json()
 
-    def post(self, endpoint, data):
-        url = f"{self.base_url}/{endpoint}"
-        headers = self.get_headers()
-        response = requests.post(url, headers=headers, json=data)
-        response.raise_for_status()
-        return response.json()
+    def get_all_pages(self, endpoint, filters=None, orderby=None, maxpagesize=None):
+        all_data = []
+        next_link = None
+
+        while True:
+            data = self.get(endpoint, filters, orderby, maxpagesize)
+            if "value" in data:
+                all_data.extend(data["value"])
+            else:
+                all_data.extend(data)
+
+            next_link = data.get("@odata.nextLink")
+            if not next_link:
+                break
+
+            endpoint = next_link.replace(self.base_url + "/", "")
+        
+        return all_data

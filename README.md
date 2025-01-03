@@ -1,6 +1,6 @@
-# d365 Business Central Library
+# D365 Business Central Library
 
-This library provides a Python interface for interacting with Microsoft Dynamics 365 Business Central using both the native API and OData protocol. It simplifies authentication and data manipulation, making it easier to integrate with Business Central.
+A Python library for interacting with D365 Business Central using native API and OData protocol.
 
 ## Features
 
@@ -11,47 +11,64 @@ This library provides a Python interface for interacting with Microsoft Dynamics
 
 ## Installation
 
-To install the library, clone the repository and install the required dependencies:
+To install the library, use pip:
 
-```bash
-git clone https://github.com/yourusername/d365-business-central-lib.git
-cd d365-business-central-lib
+```sh
 pip install -r requirements.txt
+```
+
+Or install directly from the GitHub repository:
+
+```sh
+pip install git+https://github.com/jkb-novak-birne/birne-d365-bc.git@main#egg=d365-business-central-lib
 ```
 
 ## Usage
 
-### Authentication
+### Initialization
 
-To authenticate and obtain an access token:
+To use the library, you need to initialize the `D365Wrapper` class with your credentials:
 
 ```python
-from d365.auth import AuthManager
+from d365.wrapper import D365Wrapper
 
-auth_manager = AuthManager()
-token = auth_manager.get_access_token(client_id='your_client_id', client_secret='your_client_secret')
+client_id = "your_client_id"
+client_secret = "your_client_secret"
+tenant_id = "your_tenant_id"
+company_id = "your_company_id"
+env_name = "your_env_name"  # e.g., "sandbox" or "production"
+
+d365 = D365Wrapper(client_id, client_secret, tenant_id, company_id, env_name)
 ```
 
 ### Native API
 
-To interact with the native API:
+#### Get Data
+
+To get data from a native API endpoint with optional filtering, ordering, and pagination:
 
 ```python
-from d365.native_api import NativeAPIClient
-
-api_client = NativeAPIClient(token)
-data = api_client.get_data('your_endpoint')
+filters = "Field eq 'Value'"
+orderby = "Field asc"
+maxpagesize = 50
+native_df = d365.get_all_native_pages_as_dataframe("fixedAssets", filters, orderby, maxpagesize)
+print("Native API DataFrame with Pagination:")
+print(native_df)
 ```
 
-### OData
+### OData API
 
-To work with OData entities:
+#### Get Data
+
+To get data from an OData API endpoint with optional filtering, ordering, and pagination:
 
 ```python
-from d365.odata import ODataClient
-
-odata_client = ODataClient(token)
-entities = odata_client.fetch_entities('your_entity_name')
+filters = "Field eq 'Value'"
+orderby = "Field asc"
+maxpagesize = 50
+odata_df = d365.get_all_odata_pages_as_dataframe("BRN_Service_Package_Line_Mileage", filters, orderby, maxpagesize)
+print("OData API DataFrame with Pagination:")
+print(odata_df)
 ```
 
 ## Running Tests
@@ -61,11 +78,3 @@ To run the tests, use the following command:
 ```bash
 pytest tests/
 ```
-
-## Contributing
-
-Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.
-
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for more details.

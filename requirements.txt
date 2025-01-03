@@ -1,3 +1,5 @@
+git+https://github.com/jkb-novak-birne/birne-d365-bc.git@main#egg=d365-business-central-lib
 requests
+pandas
 pytest
 python-dotenv
