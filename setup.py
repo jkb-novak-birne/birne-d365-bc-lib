@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='d365-business-central-lib',
-    version='1.1.1',
+    version='1.1.1.1',
     author='Jakub Novak',
     author_email='jakub.novak@birne.com',
     description='A Python library for interacting with D365 Business Central using native API and OData protocol.',
