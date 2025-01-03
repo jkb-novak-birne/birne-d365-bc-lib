@@ -1,23 +1,30 @@
-class NativeAPIClient:
-    def __init__(self, auth_manager):
-        self.auth_manager = auth_manager
+import requests
+from d365.auth import AuthManager
 
-    def get_data(self, endpoint):
-        token = self.auth_manager.get_access_token()
-        headers = {
-            'Authorization': f'Bearer {token}',
-            'Content-Type': 'application/json'
+class NativeAPI:
+    def __init__(self, auth_manager, tenant_id, company_id, env_name):
+        self.auth_manager = auth_manager
+        self.tenant_id = tenant_id
+        self.company_id = company_id
+        self.env_name = env_name
+        self.base_url = f"https://api.businesscentral.dynamics.com/v2.0/{tenant_id}/{env_name}/api/v2.0/companies({company_id})"
+
+    def get_headers(self):
+        return {
+            "Authorization": f"Bearer {self.auth_manager.access_token}",
+            "Content-Type": "application/json"
         }
-        response = requests.get(endpoint, headers=headers)
+
+    def get(self, endpoint):
+        url = f"{self.base_url}/{endpoint}"
+        headers = self.get_headers()
+        response = requests.get(url, headers=headers)
         response.raise_for_status()
         return response.json()
 
-    def post_data(self, endpoint, data):
-        token = self.auth_manager.get_access_token()
-        headers = {
-            'Authorization': f'Bearer {token}',
-            'Content-Type': 'application/json'
-        }
-        response = requests.post(endpoint, json=data, headers=headers)
+    def post(self, endpoint, data):
+        url = f"{self.base_url}/{endpoint}"
+        headers = self.get_headers()
+        response = requests.post(url, headers=headers, json=data)
         response.raise_for_status()
         return response.json()
