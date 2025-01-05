@@ -71,6 +71,21 @@ print("OData API DataFrame with Pagination:")
 print(odata_df)
 ```
 
+#### Delete Data
+
+To delete data from an OData API endpoint:
+
+```python
+endpoint = "BRN_Service_Package_Lines"
+key_values = {
+    "Service_Package_No": 999,
+    "Service_Code": "'ADMIN FEE'"
+}
+status_code = d365.delete_odata(endpoint, key_values)
+print("Delete OData API Status Code:")
+print(status_code)
+```
+
 ### Custom Native API
 
 #### Get Data

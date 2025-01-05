@@ -24,6 +24,12 @@ class D365Wrapper:
     def get_all_odata_pages(self, endpoint, filters=None, orderby=None, maxpagesize=None):
         return self.odata_api.get_all_pages(endpoint, filters, orderby, maxpagesize)
 
+    def post_odata(self, endpoint, data):
+        return self.odata_api.post(endpoint, data)
+
+    def delete_odata(self, endpoint, key_values):
+        return self.odata_api.delete(endpoint, key_values)
+
     def get_native_as_dataframe(self, endpoint, filters=None, orderby=None, maxpagesize=None):
         data = self.get_native(endpoint, filters, orderby, maxpagesize)
         if "value" in data:

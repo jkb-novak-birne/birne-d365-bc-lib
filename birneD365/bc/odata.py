@@ -53,3 +53,18 @@ class ODataAPI:
             endpoint = next_link.replace(self.base_url + "/", "")
         
         return all_data
+
+    def post(self, endpoint, data):
+        url = f"{self.base_url}/{endpoint}"
+        headers = self.get_headers()
+        response = requests.post(url, headers=headers, json=data)
+        response.raise_for_status()
+        return response.json()
+
+    def delete(self, endpoint, key_values):
+        key_value_str = ",".join([f"{key}={value}" for key, value in key_values.items()])
+        url = f"{self.base_url}/{endpoint}({key_value_str})"
+        headers = self.get_headers()
+        response = requests.delete(url, headers=headers)
+        response.raise_for_status()
+        return response.status_code
