@@ -20,7 +20,7 @@ pip install -r requirements.txt
 Or install directly from the GitHub repository:
 
 ```sh
-pip install git+https://github.com/jkb-novak-birne/birneD365.bc.git@main#egg=d365-business-central-lib
+pip install git+https://github.com/jkb-novak-birne/birne-d365-bc-lib
 ```
 
 ## Usage
