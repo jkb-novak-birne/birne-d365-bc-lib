@@ -51,7 +51,8 @@ class ODataAPI:
                 break
 
             endpoint = next_link.replace(self.base_url + "/", "")
-        
+            #null filters as they are already in next link
+            filters = None
         return all_data
 
     def post(self, endpoint, data):
